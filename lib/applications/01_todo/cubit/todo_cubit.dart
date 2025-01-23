@@ -10,16 +10,42 @@ class TodoCubit extends Cubit<TodoState> {
   TodoCubit() : super(TodoState.initial());
 
   void inputTodoForm(String todo) => emit(state.copyWith(todoInput: todo));
+  void addToUpdate(String id) {
+    if (id == state.updateId) {
+      emit(
+          state.copyWith(todoInput: '', isUpdate: false, updateId: () => null));
+    } else {
+      final todo = state.todos.firstWhere((e) => e.id == id);
+      emit(state.copyWith(
+          todoInput: todo.todo, isUpdate: true, updateId: () => todo.id));
+    }
+  }
+
+  void previousPage() =>
+      emit(state.copyWith(page: state.page > 1 ? state.page - 1 : state.page));
+
+  void nextPage() => emit(
+        state.copyWith(
+          page: state.page < state.totalPage! ? state.page + 1 : state.page,
+        ),
+      );
 
   Future<void> getTodos() async {
     try {
       emit(state.copyWith(todoStatus: TodoStatus.loading));
       final res = await pbDb.collection('01_todo').getList(
             page: state.page,
-            perPage: 6,
+            perPage: 11,
           );
       final todos = res.items.map(Todo.fromRecordModel).toList();
-      emit(state.copyWith(todoStatus: TodoStatus.loaded, todos: todos));
+
+      emit(
+        state.copyWith(
+          todoStatus: TodoStatus.loaded,
+          todos: todos,
+          totalPage: res.totalPages,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -28,6 +54,12 @@ class TodoCubit extends Cubit<TodoState> {
         ),
       );
     }
+    // final a = pbDb.collection('01_todo').subscribe('*', (e) {
+    //   print(e.action);
+    //   print(e.record);
+    // flutter: create
+    // flutter: {"collectionId":"pbc_2859720808","collectionName":"01_todo","created":"2025-01-22 22:03:49.122Z","done":false,"id":"69418466cd3f2z9","todo":"todo 4","updated":"2025-01-22 22:03:49.122Z"}
+    //});
   }
 
   Future<void> createTodos() async {
@@ -35,6 +67,21 @@ class TodoCubit extends Cubit<TodoState> {
       emit(state.copyWith(todoFormStatus: TodoFormStatus.loading));
 
       if (state.isUpdate == true) {
+        final res = await pbDb
+            .collection('01_todo')
+            .update(state.updateId!, body: {"todo": state.todoInput});
+        final todo = Todo.fromRecordModel(res);
+
+        emit(
+          state.copyWith(
+            todos: state.todos.map((e) {
+              if (e.id == todo.id) {
+                return todo;
+              }
+              return e;
+            }).toList(),
+          ),
+        );
       } else {
         final body = <String, dynamic>{"todo": state.todoInput, "done": false};
 
@@ -42,7 +89,35 @@ class TodoCubit extends Cubit<TodoState> {
       }
 
       emit(
-          state.copyWith(todoFormStatus: TodoFormStatus.loaded, todoInput: ""));
+          state.copyWith(todoFormStatus: TodoFormStatus.loaded, todoInput: ''));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          todoFormStatus: TodoFormStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> updateTodoIsDone(String id) async {
+    try {
+      final req = state.todos.firstWhere((e) => e.id == id);
+      final res = await pbDb
+          .collection('01_todo')
+          .update(id, body: {"done": !req.done});
+      final todo = Todo.fromRecordModel(res);
+
+      emit(
+        state.copyWith(
+          todos: state.todos.map((e) {
+            if (e.id == id) {
+              return todo;
+            }
+            return e;
+          }).toList(),
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
