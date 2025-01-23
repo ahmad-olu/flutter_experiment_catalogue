@@ -114,3 +114,4 @@ app.*.map.json
 
 pb_data/
 pb_migrations/
+lib/app/env.dart

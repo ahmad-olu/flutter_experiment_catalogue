@@ -20,6 +20,7 @@ dependencies:
   just_audio: ^0.9.43
   pocketbase: ^0.21.0
   video_player: ^2.9.2
+  weather: ^3.1.1
 
 dev_dependencies:
   auto_route_generator: ^9.3.1

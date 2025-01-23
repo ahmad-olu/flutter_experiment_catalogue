@@ -23,9 +23,9 @@ class HomeView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Welcome",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
               ),
             ),
@@ -34,7 +34,7 @@ class HomeView extends StatelessWidget {
               text: '01 Todo Page',
             ),
             HomeNavButton(
-              onPressed: () {},
+              onPressed: () => context.router.push(const Weather02Route()),
               text: '02 Weather',
             ),
             HomeNavButton(
