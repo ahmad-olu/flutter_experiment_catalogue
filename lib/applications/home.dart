@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
               text: '02 Weather',
             ),
             HomeNavButton(
-              onPressed: () {},
+              onPressed: () => context.router.push(const BmiCalc03Route()),
               text: '03 Bmi Calc',
             ),
             HomeNavButton(

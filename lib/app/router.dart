@@ -8,6 +8,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: HomeRoute.page, initial: true),
         AutoRoute(page: Todo01Route.page),
         AutoRoute(page: Weather02Route.page),
+        AutoRoute(page: BmiCalc03Route.page),
       ];
   @override
   List<AutoRouteGuard> get guards => [
