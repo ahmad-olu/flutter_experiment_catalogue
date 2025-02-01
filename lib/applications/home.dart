@@ -42,24 +42,16 @@ class HomeView extends StatelessWidget {
               text: '03 Bmi Calc',
             ),
             HomeNavButton(
-              onPressed: () {},
+              onPressed: () => context.router.push(const Quiz04Route()),
               text: '04 Quiz',
             ),
             HomeNavButton(
-              onPressed: () {},
-              text: '05 Shopping List',
-            ),
-            HomeNavButton(
-              onPressed: () {},
+              onPressed: () => context.router.push(const Chat06Route()),
               text: '06 Chat App',
             ),
             HomeNavButton(
               onPressed: () {},
               text: '07 Music Player',
-            ),
-            HomeNavButton(
-              onPressed: () {},
-              text: '08 Expense Tracker',
             ),
             HomeNavButton(
               onPressed: () {},

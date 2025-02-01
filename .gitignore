@@ -115,3 +115,5 @@ app.*.map.json
 pb_data/
 pb_migrations/
 lib/app/env.dart
+backend/ax/target/
+backend/ax/Cargo.toml

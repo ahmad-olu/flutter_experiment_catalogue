@@ -9,6 +9,9 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: Todo01Route.page),
         AutoRoute(page: Weather02Route.page),
         AutoRoute(page: BmiCalc03Route.page),
+        AutoRoute(page: Quiz04Route.page),
+        AutoRoute(page: Chat06Route.page),
+        AutoRoute(page: Messages06Route.page)
       ];
   @override
   List<AutoRouteGuard> get guards => [

@@ -14,7 +14,7 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 
 ## 02. Weather app
 
-- get open weather api key from `https://openweathermap.org/`
+- get open weather api key from [open weather](https://openweathermap.org/)
 - add it to `lib/applications/02_weather/cubit/weather_cubit.dart`
 - then run `flutter run`
 - enter a city name then press submit.
@@ -29,3 +29,18 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 ## 04. quiz
 
 - run `flutter run`
+- data coming from [quizapi](https://quizapi.io/) also added hydrated bloc so you can continue from were you last stopped.
+- to run on the web `/#/quiz04-route`
+
+-> 🫣 I know 5 is after 4 and before 6. this is not a mistake <-
+
+## 06. Chat App
+
+- make sure you have rust installed then go to `./backend/ax` then run `cargo`
+- run `flutter run` in the root of your program
+- to run on the web `/#/chat06-route`
+
+## 07. Music Player
+
+- run `flutter run`
+- to run on the web `/#/music07-route`
