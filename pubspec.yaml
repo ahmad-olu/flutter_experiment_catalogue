@@ -25,7 +25,7 @@ dependencies:
   just_audio: ^0.9.43
   path_provider: ^2.1.5
   pocketbase: ^0.21.0
-  shared_preferences: ^2.4.0
+  shared_preferences: ^2.5.1
   video_player: ^2.9.2
   weather: ^3.1.1
   web_socket_client: ^0.1.5
