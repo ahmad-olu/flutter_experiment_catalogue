@@ -32,11 +32,15 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 - data coming from [quizapi](https://quizapi.io/) also added hydrated bloc so you can continue from were you last stopped.
 - to run on the web `/#/quiz04-route`
 
--> 🫣 I know 5 is after 4 and before 6. this is not a mistake <-
+## 05. Chat App (Socket Io)
 
-## 06. Chat App
+- make sure you have rust installed then go to `,.backend/ax` then run `cargo run`
+- run `flutter run` in the root of your program
+- to run on the web `/#/socket-test05-route`
 
-- make sure you have rust installed then go to `./backend/ax` then run `cargo`
+## 06. Chat App (Web Socket)
+
+- make sure you have rust installed then go to `./backend/ax` then run `cargo run`
 - run `flutter run` in the root of your program
 - to run on the web `/#/chat06-route`
 
@@ -44,3 +48,5 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 
 - run `flutter run`
 - to run on the web `/#/music07-route`
+
+## 08. web RTC

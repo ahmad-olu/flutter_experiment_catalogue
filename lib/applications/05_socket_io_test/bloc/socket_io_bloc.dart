@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:rxdart/rxdart.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 part 'socket_io_event.dart';
 part 'socket_io_state.dart';
@@ -15,15 +14,15 @@ class SocketIoBloc extends Bloc<SocketIoEvent, SocketIoState> {
     on<InitSocketEvent>((event, emit) async {
       log('Got here');
       //! Normal
-      // final socket = IO.io(
+      // final socket = io.io(
       //   'http://localhost:3000/custom',
-      //   IO.OptionBuilder()
+      //   io.OptionBuilder()
       //       .setTransports(['websocket']) // Ensure WebSocket is used
       //       .setExtraHeaders(
       //           {'Content-Type': 'application/json'}) // Optional headers
       //       .build(),
       // );
-      // //final socket = IO.io('http://localhost:3000/custom');
+      // //final socket = io.io('http://localhost:3000/custom');
       // socket
       //   ..onConnect((_) {
       //     log('connect');
@@ -34,37 +33,47 @@ class SocketIoBloc extends Bloc<SocketIoEvent, SocketIoState> {
       //   ..on('fromServer', (a) => log(a.toString()));
 
       //! With for each
-      socket = IO.io(
+      socket = io.io(
         'http://localhost:3000/custom', // ✔️
         //'http://localhost:3000',// ✔️
         //'http://localhost:3000/a',//❌
-        IO.OptionBuilder()
+        io.OptionBuilder()
             .setTransports(['websocket']) // Ensure WebSocket is used
             .build(),
       );
       socket
         ..onConnect((_) {
           log('Connected to server');
-          socket..emit('chat', 'test')
-          ..emit('join-room','Room1');
+          socket
+            ..emit('join-room', 'Room1')
+            ..emit('message', '{"foo":"baz"}');
         })
         ..on('message-back', (data) {
           log('Received message: $data');
           _messageController.add(data);
         })
+        ..on('return-message', (data) {
+          log('return-message: $data');
+          _messageController.add(data);
+        })
+        //..emit('join-room', 'Room1')
+       // ..emit('chat', 'test')
         ..onDisconnect((_) {
           log('Disconnected from server');
         });
-      await emit.forEach(_messageController.stream, onData: (message) {
-        log('=======> $message');
-        return state.copyWith(data: [...state.data, message.toString()]);
-      },);
+      await emit.forEach(
+        _messageController.stream,
+        onData: (message) {
+          log('=======> $message');
+          return state.copyWith(data: [...state.data, message.toString()]);
+        },
+      );
     });
 
     on<ChatSocketEvent>(
       (event, emit) {
         if (socket.connected) {
-          socket.emit('message', event.val);
+          socket.emit('chat', event.val);
         } else {
           log('Socket not connected');
         }
@@ -80,6 +89,6 @@ class SocketIoBloc extends Bloc<SocketIoEvent, SocketIoState> {
     };
   }
 
-  late IO.Socket socket;
+  late io.Socket socket;
   final _messageController = StreamController<dynamic>();
 }

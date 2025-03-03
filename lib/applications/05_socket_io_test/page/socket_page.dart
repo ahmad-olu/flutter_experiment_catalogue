@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:experiment_catalogue/applications/05_socket_io_test/bloc/socket_io_bloc.dart';
 import 'package:flutter/material.dart';

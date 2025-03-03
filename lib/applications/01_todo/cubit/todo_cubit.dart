@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:experiment_catalogue/app/pocket_base_db.dart';
 import 'package:experiment_catalogue/applications/01_todo/model/todo.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 part 'todo_state.dart';
 
@@ -85,7 +84,8 @@ class TodoCubit extends Cubit<TodoState> {
       } else {
         final body = <String, dynamic>{'todo': state.todoInput, 'done': false};
 
-        final _res0 = await pbDb.collection('01_todo').create(body: body);
+        await pbDb.collection('01_todo').create(body: body);
+        
       }
 
       emit(

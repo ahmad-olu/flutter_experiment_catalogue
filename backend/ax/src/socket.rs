@@ -19,20 +19,44 @@ pub fn on_socket_connect(socket: SocketRef, Data(data): Data<Value>) {
 
     //--chat start
 
-    socket.on("join-room", |socket: SocketRef, Data::<Value>(room_name)|{
-        info!("socket {:?} joining room {:?}", socket.id, room_name);
-        socket.join(room_name.as_str().map(|e|e.to_owned()).unwrap());
-    });
+    socket.on(
+        "join-room",
+        |socket: SocketRef, Data::<String>(room_name)| {
+            info!("socket {:?} joining room {:?}", socket.id, room_name);
+            socket.leave_all();
+            socket.join(room_name.clone());
+        },
+    );
 
-    socket.on("chat", |socket: SocketRef, Data::<Value>(data)| async move{
-        info!("Received event: {:?} ", data);
-        //socket.emit("message-back", &data).ok();
-        socket.broadcast().emit("message-back", &data).await.ok();
-        if let Err(e) = socket.to(["Room1"]).emit("message-back", &data).await{
-            error!("Failed to send to {:?}",e);
-        };
-        info!("${:?}", socket.rooms())
-    });
+    socket.on(
+        "chat",
+        |socket: SocketRef, Data::<String>(data)| async move {
+            info!("Received Message: {:?} ", data);
+            // Debug: Log rooms
+            let rooms = socket.rooms();
+            info!("Socket is in rooms: {:?}", rooms);
+            //socket.emit("message-back", &data).ok();
+
+
+            // ! to broadcast everyone (except user who sent) not withstanding the group
+            socket.broadcast().emit("return-message", &format!("{}:{}", "Broad:2",&data)).await.ok();
+            // ! to send to only user who sent the message
+            socket.emit("message-back", &data).ok();
+            
+
+            // ! to method (everyone except the user who sent the message)
+            // ! note: room can be "Room1" or ["Room1",...]
+            // if let Err(e) = socket.to("Room1").emit("return-message", &data).await {
+            //     error!("Failed to emit message: {:?}", e);
+            // }
+
+            // ! within method (everyone including the user who sent the message)
+            //if let Err(e) = socket.within("Room1").emit("return-message", &format!("{}:{}", socket.id,&data)).await {
+            //    error!("Failed to emit message: {:?}", e);
+            //} 
+            //  info!("${:?}", socket.rooms())
+        },
+    );
 
     //--chat-end
 

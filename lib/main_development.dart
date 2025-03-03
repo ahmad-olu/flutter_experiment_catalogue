@@ -9,12 +9,12 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
+  // HydratedBloc.storage = await HydratedStorage.build(
+  //   storageDirectory: await getApplicationDocumentsDirectory(),
 
-    // storageDirectory: kIsWeb
-    //     ? HydratedStorageDirectory.web
-    //     : HydratedStorageDirectory((await getTemporaryDirectory()).path),
-  );
+  //   // storageDirectory: kIsWeb
+  //   //     ? HydratedStorageDirectory.web
+  //   //     : HydratedStorageDirectory((await getTemporaryDirectory()).path),
+  // );
   await bootstrap(() => const App());
 }

@@ -1,4 +1,5 @@
 use axum::{routing::get, Router};
+use rtc::on_rtc_socket_connect;
 use socket::on_socket_connect;
 use socketioxide::SocketIo;
 use std::{
@@ -16,6 +17,7 @@ pub struct AppState {
 
 pub mod socket;
 pub mod ws;
+pub mod rtc;
 
 //bacon run -- -q
 //https://www.shuttle.dev/launchpad/issues/2023-12-09-issue-08-websockets-chat
@@ -33,6 +35,7 @@ async fn main() {
     let (layer, io) = SocketIo::new_layer();
     io.ns("/", on_socket_connect);
     io.ns("/custom", on_socket_connect);
+    io.ns("/rtc", on_rtc_socket_connect);
 
     let user_set = Mutex::new(HashSet::new());
     let (tx, _rx) = broadcast::channel(100);

@@ -1,14 +1,25 @@
 import 'package:flutter/foundation.dart';
 
 class Quiz {
+  Quiz({
+    required this.id,
+    required this.question,
+    required this.answers,
+    required this.explanation,
+    required this.tip,
+    required this.tags,
+    required this.difficulty,
+  });
 
   factory Quiz.fromMap(Map<String, dynamic> map) {
     final answers = <MapEntry<String, bool>>[];
+    // ignore: inference_failure_on_untyped_parameter, avoid_dynamic_calls
     map['answers'].forEach((key, value) {
       if (value != null) {
         answers.add(
           MapEntry(
             value as String,
+            // ignore: avoid_dynamic_calls
             map['correct_answers']['${key}_correct'] == 'true',
           ),
         );
@@ -25,15 +36,6 @@ class Quiz {
       difficulty: map['difficulty'] as String? ?? 'Unknown',
     );
   }
-  Quiz({
-    required this.id,
-    required this.question,
-    required this.answers,
-    required this.explanation,
-    required this.tip,
-    required this.tags,
-    required this.difficulty,
-  });
 
   final int id;
   final String question;
@@ -65,10 +67,12 @@ class Quiz {
 
   @override
   String toString() {
+    // ignore: lines_longer_than_80_chars
     return 'Quiz(id: $id, question: $question, answers: $answers, explanation: $explanation, tip: $tip, tags: $tags, difficulty: $difficulty)';
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(covariant Quiz other) {
     if (identical(this, other)) return true;
 
@@ -82,6 +86,7 @@ class Quiz {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode {
     return id.hashCode ^
         question.hashCode ^
@@ -98,6 +103,7 @@ class Quiz {
 
     for (var i = 0; i < answers.length; i++) {
       final answerKey =
+          // ignore: lines_longer_than_80_chars
           'answer_${String.fromCharCode(97 + i)}'; // Converts 0 -> 'a', 1 -> 'b', etc.
       answersMap[answerKey] =
           answers[i].key; // Map the answer string to the key
