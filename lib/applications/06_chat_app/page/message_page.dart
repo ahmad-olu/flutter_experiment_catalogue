@@ -88,9 +88,8 @@ class Messages06View extends StatelessWidget {
 
 class ChatNormalButton extends StatelessWidget {
   const ChatNormalButton({
-    super.key,
+    required this.child, super.key,
     this.onPressed,
-    required this.child,
   });
   final void Function()? onPressed;
   final Widget child;

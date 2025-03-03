@@ -23,7 +23,7 @@ class Todo01View extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("01 TODO PAGE"),
+        title: const Text('01 TODO PAGE'),
         centerTitle: true,
       ),
       body: BlocConsumer<TodoCubit, TodoState>(
@@ -53,7 +53,6 @@ class Todo01View extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const PaginationRow(),
                     Text(
@@ -119,7 +118,6 @@ class _TodoInputFieldState extends State<TodoInputField> {
       },
       child: TextFormField(
         controller: todoController,
-        decoration: const InputDecoration(),
         onChanged: (v) => context.read<TodoCubit>().inputTodoForm(v),
       ),
     );
@@ -160,9 +158,8 @@ class PaginationRow extends StatelessWidget {
 
 class TodoNormalButton extends StatelessWidget {
   const TodoNormalButton({
-    super.key,
+    required this.child, super.key,
     this.onPressed,
-    required this.child,
   });
   final void Function()? onPressed;
   final Widget child;

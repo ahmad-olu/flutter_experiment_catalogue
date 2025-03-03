@@ -1,0 +1,2 @@
+/home/r2/Documents/playground/flutter/experiment_catalogue/android/app/.cxx/RelWithDebInfo/1j7412y4/x86/CMakeFiles/edit_cache.dir
+/home/r2/Documents/playground/flutter/experiment_catalogue/android/app/.cxx/RelWithDebInfo/1j7412y4/x86/CMakeFiles/rebuild_cache.dir

@@ -24,7 +24,7 @@ class QuizCubit extends HydratedCubit<QuizState> {
     }
     try {
       final uri = Uri.parse(
-          'https://quizapi.io/api/v1/questions?apiKey=$quizApiApiKey&limit=$limit');
+          'https://quizapi.io/api/v1/questions?apiKey=$quizApiApiKey&limit=$limit',);
       final res = await http.get(uri);
       if (res.statusCode == 200) {
         final data = j.json.decode(res.body) as List<dynamic>;
@@ -58,7 +58,7 @@ class QuizCubit extends HydratedCubit<QuizState> {
   void nextQuestion() {
     if (state.currentQuestionIndex < state.questions.length - 1) {
       emit(
-          state.copyWith(currentQuestionIndex: state.currentQuestionIndex + 1));
+          state.copyWith(currentQuestionIndex: state.currentQuestionIndex + 1),);
     } else {
       emit(state.copyWith(isQuizComplete: true));
     }
@@ -67,7 +67,7 @@ class QuizCubit extends HydratedCubit<QuizState> {
   void previousQuestion() {
     if (state.currentQuestionIndex > 0) {
       emit(
-          state.copyWith(currentQuestionIndex: state.currentQuestionIndex - 1));
+          state.copyWith(currentQuestionIndex: state.currentQuestionIndex - 1),);
     }
   }
 
@@ -77,7 +77,7 @@ class QuizCubit extends HydratedCubit<QuizState> {
       isQuizComplete: false,
       questions: state.questions,
       selectedAnswers: List.filled(state.questions.length, null),
-    ));
+    ),);
   }
 
   @override

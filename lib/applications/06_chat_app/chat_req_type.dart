@@ -10,6 +10,9 @@ enum MessageType {
 }
 
 class ChatReqType extends Equatable {
+
+  factory ChatReqType.fromJson(String source) =>
+      ChatReqType.fromMap(json.decode(source) as Map<String, dynamic>);
   const ChatReqType({
     required this.typed,
     this.message,
@@ -60,7 +63,4 @@ class ChatReqType extends Equatable {
   List<Object?> get props => [typed, username, thread, message];
 
   String toJson() => json.encode(toMap());
-
-  factory ChatReqType.fromJson(String source) =>
-      ChatReqType.fromMap(json.decode(source) as Map<String, dynamic>);
 }

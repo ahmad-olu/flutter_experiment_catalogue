@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:experiment_catalogue/app/router.gr.dart';
-import 'package:experiment_catalogue/applications/06_chat_app/bloc/chat_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class Chat06Page extends StatelessWidget {

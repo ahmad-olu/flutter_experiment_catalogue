@@ -1,6 +1,30 @@
 import 'package:flutter/foundation.dart';
 
 class Quiz {
+
+  factory Quiz.fromMap(Map<String, dynamic> map) {
+    final answers = <MapEntry<String, bool>>[];
+    map['answers'].forEach((key, value) {
+      if (value != null) {
+        answers.add(
+          MapEntry(
+            value as String,
+            map['correct_answers']['${key}_correct'] == 'true',
+          ),
+        );
+      }
+    });
+    return Quiz(
+      id: map['id'] as int,
+      question: map['question'] as String,
+      answers: answers,
+      explanation:
+          map['explanation'] != null ? map['explanation'] as String : null,
+      tip: map['tip'] != null ? map['tip'] as String : null,
+      tags: List<Map<String, dynamic>>.from(map['tags'] as List),
+      difficulty: map['difficulty'] as String? ?? 'Unknown',
+    );
+  }
   Quiz({
     required this.id,
     required this.question,
@@ -36,30 +60,6 @@ class Quiz {
       tip: tip ?? this.tip,
       tags: tags ?? this.tags,
       difficulty: difficulty ?? this.difficulty,
-    );
-  }
-
-  factory Quiz.fromMap(Map<String, dynamic> map) {
-    final answers = <MapEntry<String, bool>>[];
-    map['answers'].forEach((key, value) {
-      if (value != null) {
-        answers.add(
-          MapEntry(
-            value as String,
-            map['correct_answers']['${key}_correct'] == 'true',
-          ),
-        );
-      }
-    });
-    return Quiz(
-      id: map['id'] as int,
-      question: map['question'] as String,
-      answers: answers,
-      explanation:
-          map['explanation'] != null ? map['explanation'] as String : null,
-      tip: map['tip'] != null ? map['tip'] as String : null,
-      tags: List<Map<String, dynamic>>.from(map['tags'] as List),
-      difficulty: map['difficulty'] as String? ?? 'Unknown',
     );
   }
 

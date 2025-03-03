@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Welcome",
+              'Welcome',
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -44,6 +44,10 @@ class HomeView extends StatelessWidget {
             HomeNavButton(
               onPressed: () => context.router.push(const Quiz04Route()),
               text: '04 Quiz',
+            ),
+            HomeNavButton(
+              onPressed: () => context.router.push(const SocketTest05Route()),
+              text: '05 Socket Io Test',
             ),
             HomeNavButton(
               onPressed: () => context.router.push(const Chat06Route()),
@@ -105,7 +109,7 @@ class HomeView extends StatelessWidget {
 }
 
 class HomeNavButton extends StatelessWidget {
-  const HomeNavButton({super.key, this.onPressed, required this.text});
+  const HomeNavButton({required this.text, super.key, this.onPressed});
   final void Function()? onPressed;
   final String text;
 

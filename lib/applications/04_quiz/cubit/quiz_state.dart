@@ -2,6 +2,19 @@ part of 'quiz_cubit.dart';
 
 @immutable
 class QuizState {
+
+  factory QuizState.fromMap(Map<String, dynamic> map) {
+    return QuizState(
+      currentQuestionIndex: map['currentQuestionIndex'] as int,
+      isQuizComplete: map['isQuizComplete'] as bool,
+      questions: List<Quiz>.from(
+        (map['questions'] as List<int>).map<Quiz>(
+          (x) => Quiz.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      selectedAnswers: List<int?>.from((map['selectedAnswers'] as List<int?>)),
+    );
+  }
   const QuizState({
     required this.currentQuestionIndex,
     required this.isQuizComplete,
@@ -75,18 +88,5 @@ class QuizState {
       'questions': questions.map((x) => x.toMap()).toList(),
       'selectedAnswers': selectedAnswers,
     };
-  }
-
-  factory QuizState.fromMap(Map<String, dynamic> map) {
-    return QuizState(
-      currentQuestionIndex: map['currentQuestionIndex'] as int,
-      isQuizComplete: map['isQuizComplete'] as bool,
-      questions: List<Quiz>.from(
-        (map['questions'] as List<int>).map<Quiz>(
-          (x) => Quiz.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      selectedAnswers: List<int?>.from((map['selectedAnswers'] as List<int?>)),
-    );
   }
 }

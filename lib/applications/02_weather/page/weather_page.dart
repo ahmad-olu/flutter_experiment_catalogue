@@ -140,7 +140,7 @@ class _WeatherTextInputState extends State<WeatherTextInput> {
                 labelText: 'Enter city name',
                 hintText: 'e.g., London',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 prefixIcon: const Icon(Icons.search),
               ),
@@ -154,11 +154,11 @@ class _WeatherTextInputState extends State<WeatherTextInput> {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
             child: const Text('Submit'),
-          )
+          ),
         ],
       ),
     );

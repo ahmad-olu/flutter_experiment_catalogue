@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:experiment_catalogue/applications/03_bmi_calc/model/bmi.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bmi_state.dart';

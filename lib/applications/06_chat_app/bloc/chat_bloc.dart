@@ -34,7 +34,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       }
     });
     on<ChatEventSendMessageStr>(
-        (event, emit) => emit(state.copyWith(chatMessage: event.message)));
+        (event, emit) => emit(state.copyWith(chatMessage: event.message)),);
     on<ChatEventSendMessage>((event, emit) {
       if (_websocket.connection.state == const Connected()) {
         final data = ChatReqType(

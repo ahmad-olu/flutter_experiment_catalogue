@@ -9,6 +9,7 @@ environment:
 dependencies:
   auto_route: ^9.3.0+1
   bloc: ^8.1.4
+  bloc_concurrency: ^0.2.5
   camerawesome: ^2.1.0
   connectivity_plus: ^6.1.2
   equatable: ^2.0.7
@@ -25,7 +26,9 @@ dependencies:
   just_audio: ^0.9.43
   path_provider: ^2.1.5
   pocketbase: ^0.21.0
+  rxdart: ^0.28.0
   shared_preferences: ^2.4.0
+  socket_io_client: ^3.0.2
   video_player: ^2.9.2
   weather: ^3.1.1
   web_socket_client: ^0.1.5

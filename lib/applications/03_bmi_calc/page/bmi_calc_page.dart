@@ -72,12 +72,12 @@ class BmiCalcView extends StatelessWidget {
                       child: InputTextField(
                     data: 'height in meters (1.75)',
                     onChanged: (v) => context.read<BmiCubit>().heightStr(v),
-                  )),
+                  ),),
                   Expanded(
                       child: InputTextField(
                     data: 'weight in kg (70)',
                     onChanged: (v) => context.read<BmiCubit>().weightStr(v),
-                  )),
+                  ),),
                 ],
               ),
               const SizedBox(
@@ -86,7 +86,7 @@ class BmiCalcView extends StatelessWidget {
               CustomElevatedButton(
                 data: 'Submit',
                 onPressed: () => context.read<BmiCubit>().createBmi(),
-              )
+              ),
             ],
           ),
         );

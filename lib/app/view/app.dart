@@ -1,5 +1,4 @@
 import 'package:experiment_catalogue/app/router.dart';
-import 'package:experiment_catalogue/counter/counter.dart';
 import 'package:experiment_catalogue/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
