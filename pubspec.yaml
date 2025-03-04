@@ -28,7 +28,7 @@ dependencies:
   image_picker: ^1.1.2
   intl: ^0.19.0
   json_serializable: ^6.9.3
-  just_audio: ^0.9.43
+  just_audio: ^0.9.46
   media_kit_libs_linux: ^1.1.0
   path_provider: ^2.1.5
   pocketbase: ^0.21.0
