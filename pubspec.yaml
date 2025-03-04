@@ -31,7 +31,7 @@ dependencies:
   just_audio: ^0.9.43
   media_kit_libs_linux: ^1.1.0
   path_provider: ^2.1.5
-  pocketbase: ^0.21.0
+  pocketbase: ^0.22.0
   rxdart: ^0.28.0
   shared_preferences: ^2.4.0
   socket_io_client: ^3.0.2
