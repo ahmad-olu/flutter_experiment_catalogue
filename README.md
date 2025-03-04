@@ -49,4 +49,9 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 - run `flutter run`
 - to run on the web `/#/music07-route`
 
-## 08. web RTC
+## 16. video streaming
+- make sure you have rust installed then go to `./backend/ax`, create a `video` folder then run `cargo run`
+- run `flutter run` in the root of your program
+- to run on the web `/#/upload-vid16-route`
+
+## 20. web RTC

@@ -28,70 +28,47 @@ pub fn on_rtc_socket_connect(socket: SocketRef, Data(data): Data<Value>) {
     info!("Socket.IO connected: {:?} {:?}", socket.ns(), socket.id);
     socket.emit("msg", &data).ok();
 
+    // Join a room
     socket.on(
         "join",
         |socket: SocketRef, Data::<String>(room_id)| async move {
-            let socket_cnt = socket.within(room_id.clone()).sockets().len();
-            if socket_cnt == 0 {
-                tracing::info!("creating room {room_id} and emitting room_created socket event");
-                socket.join(room_id.clone());
-                socket.emit("room_created", &room_id).unwrap();
-            } else if socket_cnt == 1 {
-                tracing::info!("joining room {room_id} and emitting room_joined socket event");
-                socket.join(room_id.clone());
-                socket.emit("room_joined", &room_id).unwrap();
-            } else {
-                tracing::info!("Can't join room {room_id}, emitting full_room socket event");
-                socket.emit("full_room", &room_id).ok();
-            }
+            println!("User joined room: {}", room_id);
+            socket.join(room_id.clone());
+        },
+    );
+
+    // Handle SDP exchange
+    socket.on(
+        "offer",
+        |socket: SocketRef, Data::<Event>(event)| async move {
+            println!("Received offer for room: {}", event.room_id);
+            socket
+                .to(event.room_id.clone())
+                .emit("offer", &event)
+                .await
+                .ok();
         },
     );
 
     socket.on(
-        "start_call",
-        |socket: SocketRef, Data::<String>(room_id)| async move {
-            tracing::info!("broadcasting start_call event to peers in room {room_id}");
-            socket.to(room_id.clone())
-                .emit("start_call", &room_id)
+        "answer",
+        |socket: SocketRef, Data::<Event>(event)| async move {
+            println!("Received answer for room: {}", event.room_id);
+            socket
+                .to(event.room_id.clone())
+                .emit("answer", &event)
                 .await
                 .ok();
         },
     );
+    // Handle ICE Candidates
     socket.on(
-        "webrtc_offer",
-        |socket: SocketRef, Data(event): Data<Event>| async move {
-            tracing::info!(
-                "broadcasting webrtc_offer event to peers in room {}",
-                event.room_id
-            );
-            socket.to(event.room_id)
-                .emit("webrtc_offer", &event.sdp)
-                .await
-                .ok();
-        },
-    );
-    socket.on(
-        "webrtc_answer",
-        |socket: SocketRef, Data(event): Data<Event>| async move {
-            tracing::info!(
-                "broadcasting webrtc_answer event to peers in room {}",
-                event.room_id
-            );
-            socket.to(event.room_id)
-                .emit("webrtc_answer", &event.sdp)
-                .await
-                .ok();
-        },
-    );
-    socket.on(
-        "webrtc_ice_candidate",
-        |socket: SocketRef,Data(event): Data<IceCandidate>| async move {
-            tracing::info!(
-                "broadcasting ice_candidate event to peers in room {}",
-                event.room_id
-            );
-            socket.to(event.room_id.clone())
-                .emit("webrtc_ice_candidate", &event)
+        "ice-candidate",
+        |socket: SocketRef, Data::<IceCandidate>(event)| async move {
+            println!("Received ICE Candidate for room: {}", event.room_id);
+            socket
+                .to(event.room_id.clone())
+                .emit("ice-candidate", &event)
                 .await
                 .ok();
         },

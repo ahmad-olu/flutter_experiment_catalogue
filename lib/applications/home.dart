@@ -77,7 +77,8 @@ class HomeView extends StatelessWidget {
             const HomeNavButton(
               text: '15 E commerce',
             ),
-            const HomeNavButton(
+            HomeNavButton(
+              onPressed: () => context.router.push(const UploadVideo16Route()),
               text: '16 Video Streaming',
             ),
             const HomeNavButton(
@@ -90,6 +91,7 @@ class HomeView extends StatelessWidget {
               text: '19 Data and graphs',
             ),
             const HomeNavButton(
+              //  onPressed: ()=> context.router.push(const WebRtc20Route()),
               text: '20 Webrtc',
             ),
           ],
@@ -113,8 +115,9 @@ class HomeNavButton extends StatelessWidget {
         child: SizedBox(
           height: 100,
           child: Card(
-            surfaceTintColor:onPressed != null?  Colors.amber:Colors.blueGrey,
-            shadowColor:onPressed != null? Colors.yellow: Colors.black,
+            surfaceTintColor:
+                onPressed != null ? Colors.amber : Colors.blueGrey,
+            shadowColor: onPressed != null ? Colors.yellow : Colors.black,
             elevation: 10,
             child: Center(child: Text(text)),
           ),

@@ -15,9 +15,10 @@ pub struct AppState {
     tx: broadcast::Sender<String>,
 }
 
-pub mod socket;
-pub mod ws;
 pub mod rtc;
+pub mod socket;
+pub mod video_stream;
+pub mod ws;
 
 //bacon run -- -q
 //https://www.shuttle.dev/launchpad/issues/2023-12-09-issue-08-websockets-chat
@@ -44,6 +45,8 @@ async fn main() {
     let app = Router::new()
         .route("/ws", get(ws))
         .with_state(app_state)
+        .nest("/video", video_stream::video_stream_router())
+        //.merge(video_stream::video_stream_router())
         .layer(layer);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
