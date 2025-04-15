@@ -1,4 +1,7 @@
 import 'package:experiment_catalogue/app/router.dart';
+import 'package:experiment_catalogue/app/view/example/example_editor.dart';
+import 'package:experiment_catalogue/app/view/first+try/main.dart';
+import 'package:experiment_catalogue/app/view/permission_table.dart';
 import 'package:experiment_catalogue/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -24,5 +27,22 @@ class _AppState extends State<App> {
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: _appRouter.config(),
     );
+
+    //!
+    // return MaterialApp(
+    //   theme: ThemeData(
+    //     appBarTheme: const AppBarTheme(
+    //       backgroundColor: Colors.brown,
+    //     ),
+    //     scaffoldBackgroundColor: Colors.grey.shade400,
+    //     // brightness: Brightness.dark,
+    //     useMaterial3: true,
+    //   ),
+    //   //themeMode: ThemeMode.light,
+    //   localizationsDelegates: AppLocalizations.localizationsDelegates,
+    //   supportedLocales: AppLocalizations.supportedLocales,
+    //   home: const FirstTryEditor(),
+    //   //home: PermissionTable(),
+    // );
   }
 }

@@ -3,6 +3,7 @@ import 'package:experiment_catalogue/app/router.gr.dart';
 import 'package:experiment_catalogue/applications/03_bmi_calc/cubit/bmi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -21,20 +22,86 @@ class WebRtc20Page extends StatelessWidget {
   }
 }
 
-class WebRtc20View extends StatelessWidget {
+class WebRtc20View extends HookWidget {
   const WebRtc20View({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final selectedDeviceIdState = useState<String?>(null);
+    final videoDevicesState = useState<List<MediaDeviceInfo>>([]);
+
+    Future<void> getVideoDevices() async {
+      final devices = await navigator.mediaDevices.enumerateDevices();
+      final videoDevices = devices
+          .where((d) => d.kind == 'videoinput')
+          .toList()
+          .fold<List<MediaDeviceInfo>>([], (acc, device) {
+        // Deduplicate by deviceId
+        if (!acc.any((d) => d.deviceId == device.deviceId)) {
+          acc.add(device);
+        }
+        return acc;
+      });
+
+      if (videoDevices.isNotEmpty) {
+        videoDevicesState.value = videoDevices;
+        if (!videoDevicesState.value
+            .any((d) => d.deviceId == selectedDeviceIdState.value)) {
+          selectedDeviceIdState.value = videoDevices.first.deviceId;
+        }
+      } else {
+        selectedDeviceIdState.value = null; // Reset if no device found
+      }
+    }
+
+    void onCameraChanged(String? deviceId) {
+      if (videoDevicesState.value.any((d) => d.deviceId == deviceId)) {
+        selectedDeviceIdState.value = deviceId;
+      }
+    }
+
+    useEffect(
+      () {
+        getVideoDevices();
+        return null;
+      },
+      [],
+    );
+
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: Colors.purple[100],
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: ElevatedButton(
-            onPressed: () => context.router.push(const WebRtc20bRoute()),
-            child: const Text('To Page 2'),
+          child: Column(
+            children: [
+              if (videoDevicesState.value.isNotEmpty)
+                DropdownButton<String>(
+                  value: selectedDeviceIdState.value,
+                  items: videoDevicesState.value.map((device) {
+                    return DropdownMenuItem(
+                      value: device.deviceId,
+                      child: Text(
+                        device.label.isNotEmpty
+                            ? device.label
+                            : 'Unknown Camera',
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: onCameraChanged,
+                ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (selectedDeviceIdState.value != null) {
+                    context.router.push(
+                        WebRtc20bRoute(deviceId: selectedDeviceIdState.value!));
+                  }
+                },
+                child: const Text('To Page 2'),
+              ),
+            ],
           ),
         ),
       ),
@@ -45,19 +112,21 @@ class WebRtc20View extends StatelessWidget {
 //! ----page 2
 @RoutePage()
 class WebRtc20bPage extends StatelessWidget {
-  const WebRtc20bPage({super.key});
+  const WebRtc20bPage({super.key, required this.deviceId});
+  final String deviceId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => BmiCubit()..getBmi(),
-      child: const WebRtc20bView(),
+      child: WebRtc20bView(deviceId: deviceId),
     );
   }
 }
 
 class WebRtc20bView extends StatefulWidget {
-  const WebRtc20bView({super.key});
+  const WebRtc20bView({super.key, required this.deviceId});
+  final String deviceId;
 
   @override
   State<WebRtc20bView> createState() => _WebRtc20bViewState();
@@ -83,7 +152,14 @@ class _WebRtc20bViewState extends State<WebRtc20bView> {
     await _remoteRenderer.initialize();
 
     _localStream = await navigator.mediaDevices.getUserMedia({
-      'video': true,
+      //  'video': true,
+      'video': {
+        'deviceId': widget.deviceId, // Select the specific camera
+        'facingMode':
+            'user', // 'user' for front camera, 'environment' for back camera
+        'width': 1280,
+        'height': 720,
+      },
       'audio': true,
     });
 

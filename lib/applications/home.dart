@@ -53,14 +53,13 @@ class HomeView extends StatelessWidget {
               onPressed: () => context.router.push(const Chat06Route()),
               text: '06 Chat App',
             ),
-            const HomeNavButton(
-              text: '07 Music Player',
+            HomeNavButton(
+              onPressed: () => context.router.push(const Note07RouteOne()),
+              text: '07 Notes rich field',
             ),
-            const HomeNavButton(
-              text: '09 Notes',
-            ),
-            const HomeNavButton(
-              text: '10 Canvas',
+            HomeNavButton(
+              onPressed: () => context.router.push(const Note08RouteOne()),
+              text: '08 Notes super editor',
             ),
             const HomeNavButton(
               text: '11 News',
@@ -90,8 +89,8 @@ class HomeView extends StatelessWidget {
             const HomeNavButton(
               text: '19 Data and graphs',
             ),
-            const HomeNavButton(
-              //  onPressed: ()=> context.router.push(const WebRtc20Route()),
+            HomeNavButton(
+              onPressed: () => context.router.push(const WebRtc20Route()),
               text: '20 Webrtc',
             ),
           ],

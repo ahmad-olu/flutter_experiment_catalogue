@@ -44,11 +44,6 @@ $ flutter run --flavor development --target lib/main_development.dart -d chrome
 - run `flutter run` in the root of your program
 - to run on the web `/#/chat06-route`
 
-## 07. Music Player
-
-- run `flutter run`
-- to run on the web `/#/music07-route`
-
 ## 16. video streaming
 - make sure you have rust installed then go to `./backend/ax`, create a `video` folder then run `cargo run`
 - run `flutter run` in the root of your program
